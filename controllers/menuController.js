@@ -4,12 +4,20 @@ const { validationResult } = require('express-validator');
 // Get all menu items
 const getMenuItems = async (req, res) => {
     try {
-        const items = await MenuItem.find({ available: true });
+        const { category } = req.query;
+        const filter = { available: true };
+
+        if (category && category !== "All") {
+            filter.category = category;
+        }
+
+        const items = await MenuItem.find(filter);
         res.json(items);
     } catch (error) {
         res.status(500).json({ message: "Server error" });
     }
 };
+
 
 // Get menu item by ID
 const getMenuItemById = async (req, res) => {
