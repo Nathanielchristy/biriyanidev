@@ -1,10 +1,11 @@
 const express = require("express");
 const {
-    getMenuItems,
-    getMenuItemById,
-    createMenuItem,
-    updateMenuItem,
-    deleteMenuItem,
+  getMenuItems,
+  getMenuItemById,
+  createMenuItem,
+  updateMenuItem,
+  deleteMenuItem,
+  getMenuCategories,
 } = require("../controllers/menuController");
 const { body, param } = require('express-validator');
 
@@ -48,5 +49,7 @@ router.put(
   updateMenuItem
 );
 router.delete("/:id", protect, adminOnly, deleteMenuItem);
+
+router.get("/categories", getMenuCategories);
 
 module.exports = router;

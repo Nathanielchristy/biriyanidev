@@ -17,7 +17,16 @@ const getMenuItems = async (req, res) => {
         res.status(500).json({ message: "Server error" });
     }
 };
+// Get all unique categories
 
+const getMenuCategories = async (req, res) => {
+    try {
+        const categories = await MenuItem.distinct("category", { available: true });
+        res.json(["All", ...categories]);
+    } catch (error) {
+        res.status(500).json({ message: "Server error" });
+    }
+};
 
 // Get menu item by ID
 const getMenuItemById = async (req, res) => {
@@ -89,5 +98,6 @@ module.exports = {
     getMenuItemById,
     createMenuItem,
     updateMenuItem,
-    deleteMenuItem
+    deleteMenuItem,
+    getMenuCategories
 };
