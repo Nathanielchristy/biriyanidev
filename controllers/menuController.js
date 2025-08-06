@@ -31,7 +31,7 @@ const getMenuCategories = async (req, res) => {
             throw new Error("Distinct query did not return an array");
         }
 
-        res.json(["All", ...categories]);
+        res.json([...categories]);
     } catch (error) {
         console.error("Error in getMenuCategories:", error);
         res.status(500).json({ message: "Server error", error: error.message });
