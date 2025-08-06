@@ -12,6 +12,8 @@ const { body, param } = require('express-validator');
 const { protect, adminOnly } = require("../middleware/authMiddleware");
 const router = express.Router();
 
+router.get("/categories", getMenuCategories);
+
 // Public routes
 router.get("/:id", getMenuItemById);
 router.get("/", getMenuItems);
@@ -50,6 +52,5 @@ router.put(
 );
 router.delete("/:id", protect, adminOnly, deleteMenuItem);
 
-router.get("/categories", getMenuCategories);
 
 module.exports = router;
