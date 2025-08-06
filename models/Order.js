@@ -8,6 +8,13 @@ const orderSchema = new mongoose.Schema({
     }],
     totalAmount: { type: Number, required: true },
     paymentMethod: { type: String, enum: ["cash", "online"], default: "cash" },
+    address: {
+        street: { type: String, required: true },
+        city: { type: String, required: true },
+        zip: { type: String, required: true },
+    },
+
+    phoneNumber: { type: String, required: true },
     status: {
         type: String,
         enum: ["pending", "confirmed", "preparing", "out-for-delivery", "delivered", "cancelled"],

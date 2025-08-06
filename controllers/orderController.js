@@ -8,7 +8,15 @@ exports.placeOrder = async (req, res) => {
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
-    const { items, paymentMethod } = req.body;
+
+    const {
+        items,
+        paymentMethod,
+        addressStreet,
+        addressCity,
+        addressZip,
+        phoneNumber,
+    } = req.body;
 
     try {
         // Calculate total
@@ -26,13 +34,21 @@ exports.placeOrder = async (req, res) => {
             items,
             paymentMethod,
             totalAmount,
+            address: {
+                street: addressStreet,
+                city: addressCity,
+                zip: addressZip,
+            },
+            phoneNumber,
         });
 
         res.status(201).json(order);
     } catch (error) {
+        console.error(error);
         res.status(500).json({ message: "Server error" });
     }
 };
+
 
 // Get orders (customers get own orders, admin gets all)
 exports.getOrders = async (req, res) => {
