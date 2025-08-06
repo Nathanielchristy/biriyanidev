@@ -19,15 +19,24 @@ const getMenuItems = async (req, res) => {
 };
 // Get all unique categories
 
+
 const getMenuCategories = async (req, res) => {
     try {
-        const categories = await MenuItem.distinct("category", { available: true });
+        // SAFER QUERY in case some docs don't have available field
+        const filter = { $or: [{ available: true }, { available: { $exists: false } }] };
+
+        const categories = await MenuItem.distinct("category", filter);
+
+        if (!Array.isArray(categories)) {
+            throw new Error("Distinct query did not return an array");
+        }
+
         res.json(["All", ...categories]);
     } catch (error) {
-        res.status(500).json({ message: "Server error" });
+        console.error("Error in getMenuCategories:", error);
+        res.status(500).json({ message: "Server error", error: error.message });
     }
 };
-
 // Get menu item by ID
 const getMenuItemById = async (req, res) => {
     try {
