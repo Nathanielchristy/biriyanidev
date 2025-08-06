@@ -37,7 +37,7 @@ exports.placeOrder = async (req, res) => {
             address: {
                 street: addressStreet,
                 city: addressCity,
-                zip: addressZip,
+                zipCode: addressZip,
             },
             phoneNumber,
         });

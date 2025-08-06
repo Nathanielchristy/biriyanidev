@@ -15,6 +15,8 @@ const orderSchema = new mongoose.Schema({
     },
 
     phoneNumber: { type: String, required: true },
+    orderPlacedAt: { type: Date, default: Date.now },
+    orderDeliveredAt: { type: Date },
     status: {
         type: String,
         enum: ["pending", "confirmed", "preparing", "out-for-delivery", "delivered", "cancelled"],
