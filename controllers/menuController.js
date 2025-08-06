@@ -20,18 +20,49 @@ const getMenuItems = async (req, res) => {
 // Get all unique categories
 
 
+// const getMenuCategories = async (req, res) => {
+//     try {
+//         // SAFER QUERY in case some docs don't have available field
+//         const filter = { $or: [{ available: true }, { available: { $exists: false } }] };
+
+//         const categories = await MenuItem.distinct("category", filter);
+
+//         if (!Array.isArray(categories)) {
+//             throw new Error("Distinct query did not return an array");
+//         }
+
+//         res.json([...categories]);
+//     } catch (error) {
+//         console.error("Error in getMenuCategories:", error);
+//         res.status(500).json({ message: "Server error", error: error.message });
+//     }
+// };
 const getMenuCategories = async (req, res) => {
     try {
-        // SAFER QUERY in case some docs don't have available field
-        const filter = { $or: [{ available: true }, { available: { $exists: false } }] };
+        const fixedCategories = [
+            "Soup",
+            "Roti & Naan",
+            "Rice & Noodle",
+            "Rice",
+            "Punjabi Kulchas",
+            "Platters",
+            "Kebab – Veg",
+            "Kebab – Seafood",
+            "Kebab – Mutton",
+            "Kebab – Chicken",
+            "Hyderabadi Specialities",
+            "Haleem",
+            "Famous Gravy",
+            "Desserts",
+            "Combo Meals",
+            "Chinese – Veg",
+            "Chinese – Non-Veg",
+            "Beverages",
+            "BWCO Biryani",
+            "Accompaniments"
+        ];
 
-        const categories = await MenuItem.distinct("category", filter);
-
-        if (!Array.isArray(categories)) {
-            throw new Error("Distinct query did not return an array");
-        }
-
-        res.json([...categories]);
+        res.json(fixedCategories);
     } catch (error) {
         console.error("Error in getMenuCategories:", error);
         res.status(500).json({ message: "Server error", error: error.message });
