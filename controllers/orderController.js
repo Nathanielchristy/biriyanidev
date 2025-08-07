@@ -30,7 +30,7 @@ exports.placeOrder = async (req, res) => {
         }
 
         const order = await Order.create({
-            customer: req.user._id,
+            customer: req.user.name,
             items,
             paymentMethod,
             totalAmount,
