@@ -1,7 +1,15 @@
 const mongoose = require("mongoose");
+const crypto = require('crypto');
+
+function generateOrderId() {
+    // Generate 6 random alphanumeric characters
+    const randomStr = crypto.randomBytes(3).toString('hex').toUpperCase(); // e.g. 'A1B2C3'
+    return `ORD-${randomStr}`;
+}
 
 const orderSchema = new mongoose.Schema({
     customer: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    orderId: { type: String, unique: true },
     items: [{
         menuItem: { type: mongoose.Schema.Types.ObjectId, ref: "MenuItem" },
         quantity: { type: Number, default: 1 },
@@ -23,5 +31,16 @@ const orderSchema = new mongoose.Schema({
         default: "pending"
     }
 }, { timestamps: true });
+orderSchema.pre('save', async function (next) {
+    if (this.isNew) {
+        let unique = false;
+        while (!unique) {
+            this.orderId = generateOrderId();
+            const existingOrder = await this.constructor.findOne({ orderId: this.orderId });
+            if (!existingOrder) unique = true;
+        }
+    }
+    next();
+});
 
 module.exports = mongoose.model("Order", orderSchema);
